@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini Minimal Helper",
+  "version": "1.0.0",
+  "description": "Minimal extension with timeline and folder features for Gemini",
+  "permissions": ["storage"],
+  "host_permissions": ["https://gemini.google.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["src/content.ts"]
+    }
+  ]
+}
