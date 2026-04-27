@@ -70,19 +70,19 @@ During development, reload the unpacked extension from `chrome://extensions` and
 my-gemini-ext/
 ├── manifest.json              # MV3 permissions and Gemini content-script registration
 ├── vite.config.ts             # Vite + CRX build configuration
-├── src/
-│   ├── content.ts             # Content-script entry point
-│   ├── content.css            # Injected Gemini UI styles
-│   ├── features/
-│   │   ├── folders.ts         # Session folders, native menu integration, import/export
-│   │   ├── pinnedModel.ts     # Pinned Gemini model selection
-│   │   ├── promptHistory.ts   # Right-side proportional prompt rail
-│   │   └── promptLibrary.ts   # Local reusable prompt library
-│   └── shared/
-│       ├── debug.ts           # Versioned debug logging
-│       ├── icons.ts           # Shared SVG icons
-│       ├── storage.ts         # Chrome local storage helpers and keys
-│       └── text.ts            # Text normalization, truncation, IDs, clipboard
+└── src/
+    ├── content.ts             # Content-script entry point
+    ├── content.css            # Injected Gemini UI styles
+    ├── features/
+    │   ├── folders.ts         # Session folders, native menu integration, import/export
+    │   ├── pinnedModel.ts     # Pinned Gemini model selection
+    │   ├── promptHistory.ts   # Right-side proportional prompt rail
+    │   └── promptLibrary.ts   # Local reusable prompt library
+    └── shared/
+        ├── debug.ts           # Versioned debug logging
+        ├── icons.ts           # Shared SVG icons
+        ├── storage.ts         # Chrome local storage helpers and keys
+        └── text.ts            # Text normalization, truncation, IDs, clipboard
 ```
 
 The implementation is intentionally framework-light. Injected UI is built with native DOM APIs to keep the extension small and easy to audit.
