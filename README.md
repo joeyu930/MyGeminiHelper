@@ -98,7 +98,7 @@ The implementation is intentionally framework-light. Injected UI is built with n
 3. **Small Surface Area**
    > Prefer TypeScript, CSS, and browser APIs over large UI frameworks or extra runtime dependencies.
 
-## 📌 Roadmap
+## 📌 Todos
 
 1. **Prompt History Improvements**
    > Harden Gemini prompt selectors and handle route changes more reliably across Gemini UI updates.
@@ -117,7 +117,9 @@ The implementation is intentionally framework-light. Injected UI is built with n
 
 6. **增加現在是載哪一個 prompt position feature**
 
-7. **如果之後要再更輕，我會優先做這幾件：**
+7. **淺色主題下調整 folder management、 prompt history 顏色**
+   
+8. **如果之後要再更輕，我會優先做這幾件：**
 
    1. 把 promptHistory 的 MutationObserver 加 debounce，避免 Gemini 大量 DOM 變動時一直重算。
    2. 把 folders 的 body observer 改成更 scoped 的 overlay/sidebar observer。
