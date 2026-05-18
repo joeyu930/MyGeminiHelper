@@ -18,4 +18,5 @@ export const ICONS = {
   delete:    'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5-1-1h-5l-1 1H5v2h14V4z',
   folderAdd: 'M10 4H2v16h20V6H12l-2-2zm8 9h-3v3h-2v-3h-3v-2h3V8h2v3h3v2z',
   collapse:  'M8,19H11V23H13V19H16L12,15L8,19M16,5H13V1H11V5H8L12,9L16,5M4,11V13H20V11H4Z',
+  reply:     'M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z',
 };

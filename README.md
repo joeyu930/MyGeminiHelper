@@ -7,6 +7,7 @@ A lightweight, privacy-first Chrome extension tailored for Gemini users who want
 - **Prompt History Rail**: Shows a compact right-side timeline for prompts in the current Gemini conversation, with hover preview and click-to-scroll.
 - **Prompt Library**: Saves reusable prompts locally with title, tags, search, copy, and insert support.
 - **Session Folders**: Adds local folders for Gemini conversation references, including rename, delete, collapse, import/export, and "Move to folder" from Gemini's native conversation menu.
+- **Quick Reply**: Highlights text in a conversation to show a floating reply button, allowing quick insertion into the Gemini input box.
 - **Pinned Model**: Adds pin controls to Gemini's model menu and attempts to reselect the preferred model on page load.
 - **Privacy-First Storage**: Keeps user data in `chrome.storage.local` with no cloud sync, analytics, or remote API calls.
 
@@ -28,6 +29,7 @@ A lightweight, privacy-first Chrome extension tailored for Gemini users who want
 3. **Plain DOM Content Script**
    - Injects the proportional prompt history rail.
    - Injects the local prompt library.
+   - Detects text selection and displays a floating quick reply button.
    - Adds pinned-model controls to Gemini's native model selector.
    - Injects folder UI near Gemini's conversation sidebar.
    - Extends Gemini's native conversation menu with a cloned "Move to folder" menu item.
@@ -77,9 +79,11 @@ my-gemini-ext/
     │   ├── folders.ts         # Session folders, native menu integration, import/export
     │   ├── pinnedModel.ts     # Pinned Gemini model selection
     │   ├── promptHistory.ts   # Right-side proportional prompt rail
-    │   └── promptLibrary.ts   # Local reusable prompt library
+    │   ├── promptLibrary.ts   # Local reusable prompt library
+    │   └── quickReply.ts      # Floating reply button for text selection
     └── shared/
         ├── debug.ts           # Versioned debug logging
+        ├── geminiDom.ts       # Shared DOM helpers for Gemini interactions
         ├── icons.ts           # Shared SVG icons
         ├── storage.ts         # Chrome local storage helpers and keys
         └── text.ts            # Text normalization, truncation, IDs, clipboard

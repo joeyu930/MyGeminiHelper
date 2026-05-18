@@ -830,3 +830,42 @@
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* Quick Reply Button */
+#mgh-quick-reply-btn {
+  position: absolute;
+  z-index: 1005;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgba(127, 152, 196, 0.32);
+  border-radius: 8px;
+  background: #101820;
+  color: #e8eaed;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.44);
+  opacity: 0;
+  transform: translateX(-50%) translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.15s ease;
+}
+
+#mgh-quick-reply-btn.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+#mgh-quick-reply-btn:hover {
+  background: #1a2533;
+  border-color: #8ab4f8;
+}
+
+#mgh-quick-reply-btn span {
+  display: inline-flex;
+  color: #8ab4f8;
+}

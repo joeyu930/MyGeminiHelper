@@ -4,6 +4,7 @@ import { initFolders } from './features/folders';
 import { cleanupPinnedModelUi, initPinnedModel } from './features/pinnedModel';
 import { initPromptHistoryRail } from './features/promptHistory';
 import { initPromptLibrary } from './features/promptLibrary';
+import { initQuickReply } from './features/quickReply';
 import { debugInfo } from './shared/debug';
 
 // Content scripts run directly inside Gemini pages. Keep this file as the
@@ -15,6 +16,7 @@ function initContentScript() {
   void initPinnedModel();
   void initPromptLibrary();
   void initFolders();
+  initQuickReply();
 }
 
 if (document.readyState === 'loading') {
