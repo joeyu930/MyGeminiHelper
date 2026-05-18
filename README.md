@@ -130,6 +130,9 @@ The implementation is intentionally framework-light. Injected UI is built with n
    2. 把 folders 的 body observer 改成更 scoped 的 overlay/sidebar observer。
    3. ensureWrapper 可以在成功找到 sidebar 後降低 polling，或只在 URL/sidebar mutation 時跑。
    4. 未來如果功能變多，可以加 feature toggles，讓 user 關掉不用的功能。
+  
+8. **拆分 session folder 優化 chrome.storage.local 讀取效率**
+   > chrome.storage.local 本質上就是一個 Key-Value 資料庫，可以利用它的特性，把 JSON 第一層結構拆成
 
 
 ## License
