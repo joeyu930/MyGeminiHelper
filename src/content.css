@@ -1,3 +1,40 @@
+/* MGH Theme Variables */
+:root {
+  --mgh-surface: #101820;
+  --mgh-surface-alt: #0b1220;
+  --mgh-surface-lowest: rgba(0, 0, 0, 0.2);
+  --mgh-surface-highest: rgba(15, 23, 42, 0.96);
+  --mgh-surface-variant: rgba(255, 255, 255, 0.08);
+  --mgh-on-surface: #e3e3e3;
+  --mgh-on-surface-variant: #c4c7c5;
+  --mgh-primary: #a8c7fa;
+  --mgh-on-primary: #041e49;
+  --mgh-primary-hover: #b9d2fb;
+  --mgh-outline: rgba(255, 255, 255, 0.15);
+  --mgh-error: #f28b82;
+  --mgh-on-error: #601410;
+  --mgh-error-hover: #d9504a;
+  --mgh-tertiary: #f2b8b5;
+}
+
+body.mgh-light-theme {
+  --mgh-surface: #f0f4f9;
+  --mgh-surface-alt: #e9eef6;
+  --mgh-surface-lowest: rgba(255, 255, 255, 0.8);
+  --mgh-surface-highest: rgba(240, 244, 249, 0.96);
+  --mgh-surface-variant: rgba(0, 0, 0, 0.08);
+  --mgh-on-surface: #1f1f1f;
+  --mgh-on-surface-variant: #444746;
+  --mgh-primary: #0b57d0;
+  --mgh-on-primary: #ffffff;
+  --mgh-primary-hover: #0842a0;
+  --mgh-outline: rgba(0, 0, 0, 0.12);
+  --mgh-error: #b3261e;
+  --mgh-on-error: #ffffff;
+  --mgh-error-hover: #8c1d18;
+  --mgh-tertiary: #98403d;
+}
+
 /* Minimal Gemini Chrome Extension CSS */
 
 /* Prompt History Rail */
@@ -8,8 +45,8 @@
   bottom: 130px;
   width: 18px;
   z-index: 999;
-  background: rgba(10, 18, 38, 0.5);
-  border: 1px solid rgba(138, 160, 190, 0.16);
+  background: var(--mgh-surface);
+  border: 1px solid var(--mgh-outline);
   border-radius: 999px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
   transition: all 0.2s ease;
@@ -29,21 +66,21 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background-color: #9bb8f7;
-  color: #e8f0fe;
+  background-color: var(--mgh-primary);
+  color: var(--mgh-on-surface);
   cursor: pointer;
   transform: translate(-50%, -50%);
   transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   opacity: 0.78;
-  box-shadow: 0 0 0 1px rgba(10, 18, 38, 0.6);
+  box-shadow: 0 0 0 1px var(--mgh-outline);
 }
 
 .mgh-history-marker:hover,
 .mgh-history-marker.is-active {
   transform: translate(-50%, -50%) scale(1.28);
-  background-color: #34a853;
+  background-color: var(--mgh-primary);
   opacity: 1;
-  box-shadow: 0 0 0 5px rgba(52, 168, 83, 0.18);
+  box-shadow: 0 0 0 5px var(--mgh-surface);
 }
 
 .mgh-history-index {
@@ -57,10 +94,10 @@
   transform: translateY(-50%) translateX(6px);
   min-width: 160px;
   max-width: min(300px, calc(100vw - 108px));
-  background-color: rgba(15, 23, 42, 0.96);
-  color: #eef3fb;
+  background-color: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   padding: 7px 10px;
-  border: 1px solid rgba(127, 152, 196, 0.22);
+  border: 1px solid var(--mgh-outline);
   border-radius: 8px;
   font-size: 12px;
   line-height: 1.34;
@@ -90,17 +127,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(127, 152, 196, 0.32);
+  border: 1px solid var(--mgh-outline);
   border-radius: 14px;
-  background: #0f1b2e;
-  color: #9bb8f7;
+  background: var(--mgh-surface);
+  color: var(--mgh-primary);
   cursor: pointer;
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
 }
 
 #mgh-prompt-library-trigger:hover {
-  background: #15243b;
-  color: #c7d8ff;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
 }
 
 #mgh-model-pin-notice {
@@ -110,10 +147,10 @@
   z-index: 1002;
   max-width: min(280px, calc(100vw - 148px));
   padding: 7px 10px;
-  border: 1px solid rgba(127, 152, 196, 0.24);
+  border: 1px solid var(--mgh-outline);
   border-radius: 10px;
-  background: rgba(15, 23, 42, 0.96);
-  color: #eef3fb;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   font-size: 12px;
   line-height: 1.34;
   opacity: 0;
@@ -149,7 +186,7 @@
   border: 0;
   border-radius: 50%;
   background: transparent;
-  color: #9bb8f7;
+  color: var(--mgh-primary);
   font-size: 15px;
   line-height: 1;
   cursor: pointer;
@@ -158,7 +195,7 @@
 
 .mgh-model-option-pin:hover,
 .mgh-model-option-pin:focus-visible {
-  background: rgba(138, 180, 248, 0.14);
+  background: var(--mgh-surface);
   color: #34a853;
   opacity: 1;
   outline: none;
@@ -175,10 +212,10 @@
   flex-direction: column;
   gap: 10px;
   padding: 14px;
-  border: 1px solid rgba(127, 152, 196, 0.28);
+  border: 1px solid var(--mgh-outline);
   border-radius: 16px;
-  background: #101820;
-  color: #e8eaed;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   box-shadow: 0 24px 64px rgba(0,0,0,0.38);
   font-family: inherit;
 }
@@ -214,14 +251,14 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   cursor: pointer;
 }
 
 .mgh-icon-button:hover,
 .mgh-prompt-item-actions button:hover {
-  background: rgba(232, 234, 237, 0.08);
-  color: #fff;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-prompt-search,
@@ -230,10 +267,10 @@
 .mgh-prompt-text-input {
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid rgba(127, 152, 196, 0.28);
+  border: 1px solid var(--mgh-outline);
   border-radius: 10px;
-  background: #0b1220;
-  color: #f1f3f4;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   font: inherit;
   padding: 9px 10px;
   outline: none;
@@ -243,7 +280,7 @@
 .mgh-prompt-title-input:focus,
 .mgh-prompt-tags-input:focus,
 .mgh-prompt-text-input:focus {
-  border-color: #8ab4f8;
+  border-color: var(--mgh-primary);
 }
 
 .mgh-prompt-tags {
@@ -255,19 +292,20 @@
 
 .mgh-prompt-tags button {
   flex: 0 0 auto;
-  border: 1px solid rgba(127, 152, 196, 0.24);
+  border: 1px solid var(--mgh-outline);
   border-radius: 999px;
   background: transparent;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   cursor: pointer;
   padding: 5px 9px;
   font-size: 12px;
 }
 
 .mgh-prompt-tags button.is-active {
-  background: #1a73e8;
+  background: var(--mgh-primary);
+  color: var(--mgh-on-primary);
   border-color: #1a73e8;
-  color: #fff;
+  color: var(--mgh-on-surface);
 }
 
 .mgh-prompt-form {
@@ -290,8 +328,9 @@
 .mgh-prompt-form-actions button {
   border: 0;
   border-radius: 8px;
-  background: #1a73e8;
-  color: #fff;
+  background: var(--mgh-primary);
+  color: var(--mgh-on-primary);
+  color: var(--mgh-on-surface);
   cursor: pointer;
   padding: 7px 12px;
   font: inherit;
@@ -299,7 +338,7 @@
 
 .mgh-prompt-form-actions button[type="button"] {
   background: transparent;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
 }
 
 .mgh-prompt-list {
@@ -312,9 +351,9 @@
 .mgh-prompt-item {
   gap: 8px;
   padding: 8px;
-  border: 1px solid rgba(127, 152, 196, 0.16);
+  border: 1px solid var(--mgh-outline);
   border-radius: 10px;
-  background: rgba(255,255,255,0.03);
+  background: transparent;
 }
 
 .mgh-prompt-item-body {
@@ -344,12 +383,12 @@
 }
 
 .mgh-prompt-item-body span {
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   font-size: 12px;
 }
 
 .mgh-prompt-item-body .mgh-prompt-item-tags {
-  color: #8ab4f8;
+  color: var(--mgh-primary);
 }
 
 .mgh-prompt-item-actions {
@@ -360,14 +399,14 @@
 
 .mgh-prompt-empty {
   padding: 20px 8px;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   text-align: center;
   font-size: 13px;
 }
 
 .mgh-prompt-notice {
   min-height: 18px;
-  color: #8ab4f8;
+  color: var(--mgh-primary);
   font-size: 12px;
   opacity: 0;
   transition: opacity 0.18s ease;
@@ -379,7 +418,7 @@
 
 /* Voyager-style Folder Styling */
 #gv-folder-wrapper {
-  color: var(--gem-sys-color-on-surface, #e3e3e3);
+  color: var(--mgh-on-surface);
   font-family: inherit;
   margin-bottom: 16px;
   padding: 0 8px;
@@ -396,7 +435,7 @@
 .gv-folder-list-title {
   font-size: 16px;
   font-weight: 500;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
 }
 
 .gv-folder-list-actions {
@@ -407,7 +446,7 @@
 .gv-icon-btn {
   background: transparent;
   border: none;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
   cursor: pointer;
   padding: 4px;
   border-radius: 50%;
@@ -418,7 +457,7 @@
 }
 
 .gv-icon-btn:hover {
-  background-color: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.08));
+  background-color: var(--mgh-surface);
 }
 
 .mgh-new-folder-form {
@@ -430,10 +469,10 @@
 
 .mgh-new-folder-form input {
   min-width: 0;
-  border: 1px solid rgba(127, 152, 196, 0.28);
+  border: 1px solid var(--mgh-outline);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  color: var(--gem-sys-color-on-surface, #e3e3e3);
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   font: inherit;
   font-size: 13px;
   padding: 7px 8px;
@@ -441,14 +480,14 @@
 }
 
 .mgh-new-folder-form input:focus {
-  border-color: #8ab4f8;
+  border-color: var(--mgh-primary);
 }
 
 .mgh-new-folder-form button {
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
   cursor: pointer;
   font: inherit;
   font-size: 12px;
@@ -456,16 +495,18 @@
 }
 
 .mgh-new-folder-form button[type="submit"] {
-  background: #1a73e8;
-  color: #fff;
+  background: var(--mgh-primary);
+  color: var(--mgh-on-primary);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-new-folder-form button:hover {
-  background: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.08));
+  background: var(--mgh-surface);
 }
 
 .mgh-new-folder-form button[type="submit"]:hover {
-  background: #2b7de9;
+  background: var(--mgh-primary);
+  color: var(--mgh-on-primary);
 }
 
 .gv-folder-item {
@@ -479,23 +520,23 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
-  color: var(--gem-sys-color-on-surface, #e3e3e3);
+  color: var(--mgh-on-surface);
 }
 
 .gv-folder-header:hover {
-  background-color: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.08));
+  background-color: var(--mgh-surface);
 }
 
 .gv-chevron {
   display: flex;
   align-items: center;
   margin-right: 8px;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
 }
 
 .gv-folder-icon {
   margin-right: 12px;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
 }
 
 .gv-folder-name {
@@ -511,10 +552,10 @@
 .mgh-folder-rename-input {
   min-width: 0;
   flex: 1;
-  border: 1px solid #8ab4f8;
+  border: 1px solid var(--mgh-primary);
   border-radius: 7px;
-  background: rgba(0, 0, 0, 0.25);
-  color: var(--gem-sys-color-on-surface, #e3e3e3);
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   font: inherit;
   font-size: 14px;
   font-weight: 500;
@@ -545,18 +586,18 @@
   border: 0;
   border-radius: 7px;
   background: transparent;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
   cursor: pointer;
   padding: 0;
 }
 
 .mgh-folder-action:hover {
-  background: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.08));
-  color: var(--gem-sys-color-on-surface, #fff);
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-action-danger:hover {
-  color: #f28b82;
+  color: var(--mgh-error);
 }
 
 .gv-folder-contents {
@@ -574,7 +615,7 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background-color: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.12));
+  background-color: var(--mgh-surface);
 }
 
 .gv-conversation-item {
@@ -583,19 +624,19 @@
   padding: 8px 12px 8px 24px;
   border-radius: 8px;
   text-decoration: none;
-  color: var(--gem-sys-color-on-surface, #e3e3e3);
+  color: var(--mgh-on-surface);
   transition: background-color 0.2s;
   position: relative;
   cursor: pointer;
 }
 
 .gv-conversation-item:hover {
-  background-color: var(--gem-sys-color-surface-variant, rgba(255, 255, 255, 0.08));
+  background-color: var(--mgh-surface);
 }
 
 .gv-chat-icon {
   margin-right: 12px;
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
   flex-shrink: 0;
 }
 
@@ -619,15 +660,15 @@
 }
 
 .gv-star-icon, .gv-delete-icon {
-  color: var(--gem-sys-color-on-surface-variant, #c4c7c5);
+  color: var(--mgh-on-surface);
 }
 
 .gv-star-icon.active {
-  color: #fbbc04;
+  color: var(--mgh-tertiary);
 }
 
 .gv-star-icon:hover, .gv-delete-icon:hover {
-  color: var(--gem-sys-color-on-surface, #fff);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-dialog-overlay {
@@ -657,7 +698,7 @@
 }
 
 .mgh-menu-move-folder-fallback:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--mgh-surface);
 }
 
 .mgh-menu-move-folder-icon {
@@ -682,10 +723,10 @@
   flex-direction: column;
   gap: 12px;
   padding: 16px;
-  border: 1px solid rgba(127, 152, 196, 0.28);
+  border: 1px solid var(--mgh-outline);
   border-radius: 16px;
-  background: #101820;
-  color: #f1f3f4;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   box-shadow: 0 24px 64px rgba(0,0,0,0.44);
 }
 
@@ -697,7 +738,7 @@
 
 .mgh-folder-confirm-dialog p {
   margin: 0;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -712,24 +753,26 @@
   border: 0;
   border-radius: 8px;
   background: transparent;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   cursor: pointer;
   font: inherit;
   padding: 8px 12px;
 }
 
 .mgh-folder-confirm-actions button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-confirm-actions .mgh-danger-button {
-  background: #b3261e;
-  color: #fff;
+  background: var(--mgh-error);
+  color: var(--mgh-on-error);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-confirm-actions .mgh-danger-button:hover {
-  background: #c83b32;
+  background: var(--mgh-error);
+  color: var(--mgh-on-error);
 }
 
 .mgh-folder-dialog {
@@ -739,10 +782,10 @@
   flex-direction: column;
   gap: 10px;
   padding: 16px;
-  border: 1px solid rgba(127, 152, 196, 0.28);
+  border: 1px solid var(--mgh-outline);
   border-radius: 16px;
-  background: #101820;
-  color: #f1f3f4;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   box-shadow: 0 24px 64px rgba(0,0,0,0.44);
 }
 
@@ -754,7 +797,7 @@
 
 .mgh-folder-dialog p {
   margin: 0;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
   font-size: 13px;
   line-height: 1.35;
 }
@@ -780,12 +823,12 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--mgh-surface);
   text-align: left;
 }
 
 .mgh-folder-dialog-item:hover {
-  background: rgba(138, 180, 248, 0.16);
+  background: var(--mgh-surface);
 }
 
 .mgh-folder-dialog-item span {
@@ -799,12 +842,12 @@
   align-self: flex-end;
   padding: 8px 12px;
   background: transparent;
-  color: #bdc1c6;
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-dialog-cancel:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
 }
 
 .mgh-folder-notice {
@@ -815,10 +858,10 @@
   z-index: 1004;
   max-width: min(420px, calc(100vw - 32px));
   padding: 10px 14px;
-  border: 1px solid rgba(127, 152, 196, 0.26);
+  border: 1px solid var(--mgh-outline);
   border-radius: 999px;
-  background: #0f1b2e;
-  color: #eef3fb;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.32);
   font-size: 13px;
   opacity: 0;
@@ -839,10 +882,10 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  border: 1px solid rgba(127, 152, 196, 0.32);
+  border: 1px solid var(--mgh-outline);
   border-radius: 8px;
-  background: #101820;
-  color: #e8eaed;
+  background: var(--mgh-surface);
+  color: var(--mgh-on-surface);
   font-family: inherit;
   font-size: 13px;
   font-weight: 500;
@@ -861,11 +904,11 @@
 }
 
 #mgh-quick-reply-btn:hover {
-  background: #1a2533;
-  border-color: #8ab4f8;
+  background: var(--mgh-surface);
+  border-color: var(--mgh-primary);
 }
 
 #mgh-quick-reply-btn span {
   display: inline-flex;
-  color: #8ab4f8;
+  color: var(--mgh-primary);
 }

@@ -8,6 +8,7 @@ A lightweight, privacy-first Chrome extension tailored for Gemini users who want
 - **Prompt Library**: Saves reusable prompts locally with title, tags, search, copy, and insert support.
 - **Session Folders**: Adds local folders for Gemini conversation references, including rename, delete, collapse, import/export, and "Move to folder" from Gemini's native conversation menu.
 - **Quick Reply**: Highlights text in a conversation to show a floating reply button, allowing quick insertion into the Gemini input box.
+- **Theme Sync**: Automatically detects and matches Gemini's native light or dark mode theme.
 - **Pinned Model**: Adds pin controls to Gemini's model menu and attempts to reselect the preferred model on page load.
 - **Privacy-First Storage**: Keeps user data in `chrome.storage.local` with no cloud sync, analytics, or remote API calls.
 
@@ -30,6 +31,7 @@ A lightweight, privacy-first Chrome extension tailored for Gemini users who want
    - Injects the proportional prompt history rail.
    - Injects the local prompt library.
    - Detects text selection and displays a floating quick reply button.
+   - Automatically synchronizes UI colors with Gemini's active theme.
    - Adds pinned-model controls to Gemini's native model selector.
    - Injects folder UI near Gemini's conversation sidebar.
    - Extends Gemini's native conversation menu with a cloned "Move to folder" menu item.
@@ -80,7 +82,8 @@ my-gemini-ext/
     │   ├── pinnedModel.ts     # Pinned Gemini model selection
     │   ├── promptHistory.ts   # Right-side proportional prompt rail
     │   ├── promptLibrary.ts   # Local reusable prompt library
-    │   └── quickReply.ts      # Floating reply button for text selection
+    │   ├── quickReply.ts      # Floating reply button for text selection
+    │   └── themeObserver.ts   # Observes Gemini's light/dark theme changes
     └── shared/
         ├── debug.ts           # Versioned debug logging
         ├── geminiDom.ts       # Shared DOM helpers for Gemini interactions
@@ -120,10 +123,8 @@ The implementation is intentionally framework-light. Injected UI is built with n
    > Sync renamed conversation titles, preserve sort order consistently, and improve duplicate handling across folders.
 
 6. **增加現在是載哪一個 prompt position feature**
-
-7. **淺色主題下調整 folder management、 prompt history 顏色**
    
-8. **如果之後要再更輕，我會優先做這幾件：**
+7. **如果之後要再更輕，我會優先做這幾件：**
 
    1. 把 promptHistory 的 MutationObserver 加 debounce，避免 Gemini 大量 DOM 變動時一直重算。
    2. 把 folders 的 body observer 改成更 scoped 的 overlay/sidebar observer。
