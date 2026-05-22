@@ -423,6 +423,9 @@ export async function initFolders() {
 
     const trigger = target.closest(
       [
+        'button.gem-conversation-actions-menu-button',
+        'button[aria-label*="開啟對話動作選單"]',
+        'button[aria-label*="conversation action" i]',
         'button[data-test-id="actions-menu-button"]',
         'button[data-test-id="more-button"]',
         '[data-test-id="actions-menu-button"]',
@@ -456,23 +459,35 @@ export async function initFolders() {
         lastMenuClickPoint = { x: event.clientX, y: event.clientY };
       }
 
-      const row = findConversationForMenuButton(menuButton) ||
-        (lastMenuClickPoint ? findConversationNearPoint(lastMenuClickPoint) : null);
-      if (!row) {
-        lastClickedConversation = null;
-        debugInfo('native menu trigger clicked but no conversation row was found', {
-          target: target instanceof HTMLElement ? target.outerHTML.slice(0, 220) : String(target),
-          trigger: menuButton instanceof HTMLElement ? menuButton.outerHTML.slice(0, 220) : String(menuButton),
-          point: lastMenuClickPoint,
-        });
-        return;
+      let conversation: ConversationItem | null = null;
+      const isTopRightMenu = menuButton.matches('button[aria-label*="開啟對話動作選單"], button[aria-label*="conversation action" i]');
+
+      if (isTopRightMenu) {
+        const url = window.location.href;
+        const conversationId = extractConversationIdFromUrl(url);
+        if (conversationId) {
+          conversation = {
+            conversationId,
+            title: document.title.replace(' - Google Gemini', '').replace(' - Gemini', ''),
+            url: buildConversationUrlFromId(conversationId),
+            starred: false,
+            addedAt: Date.now(),
+            sortIndex: 0,
+          };
+        }
+      } else {
+        const row = findConversationForMenuButton(menuButton) ||
+          (lastMenuClickPoint ? findConversationNearPoint(lastMenuClickPoint) : null);
+        if (row) {
+          conversation = extractConversationInfo(row);
+        }
       }
 
-      const conversation = extractConversationInfo(row);
       if (!conversation) {
         lastClickedConversation = null;
-        debugInfo('conversation row found but conversation info could not be extracted', {
-          row: row.outerHTML.slice(0, 260),
+        debugInfo('could not extract conversation info for menu click', {
+          target: target instanceof HTMLElement ? target.outerHTML.slice(0, 220) : String(target),
+          trigger: menuButton instanceof HTMLElement ? menuButton.outerHTML.slice(0, 220) : String(menuButton),
         });
         return;
       }
@@ -512,22 +527,22 @@ export async function initFolders() {
     }, 50);
   }
 
-  function findNativeMenuItemTemplate(menuContent: HTMLElement): HTMLButtonElement | null {
-    const directButtons = Array.from(menuContent.children).filter(
-      (node): node is HTMLButtonElement =>
-        node instanceof HTMLButtonElement && node.classList.contains('mat-mdc-menu-item')
+  function findNativeMenuItemTemplate(menuContent: HTMLElement): Element | null {
+    const directItems = Array.from(menuContent.children).filter(
+      node => (node instanceof HTMLButtonElement && node.classList.contains('mat-mdc-menu-item')) || 
+              (node instanceof HTMLElement && node.tagName.toLowerCase() === 'gem-menu-item')
     );
-    const nestedButtons = Array.from(menuContent.querySelectorAll<HTMLButtonElement>('button.mat-mdc-menu-item'));
-    const candidates = [...directButtons];
+    const nestedItems = Array.from(menuContent.querySelectorAll('button.mat-mdc-menu-item, gem-menu-item'));
+    const candidates = [...directItems];
 
-    nestedButtons.forEach(button => {
-      if (!candidates.includes(button)) candidates.push(button);
+    nestedItems.forEach(item => {
+      if (!candidates.includes(item)) candidates.push(item);
     });
 
-    return candidates.find(button => !button.classList.contains('mgh-menu-move-folder')) || null;
+    return candidates.find(item => !item.classList.contains('mgh-menu-move-folder')) || null;
   }
 
-  function updateNativeMenuItemIcon(item: HTMLButtonElement, iconName: string) {
+  function updateNativeMenuItemIcon(item: Element, iconName: string) {
     const icon = item.querySelector('mat-icon') as HTMLElement | null;
     if (!icon) return false;
 
@@ -540,11 +555,11 @@ export async function initFolders() {
     return true;
   }
 
-  function updateNativeMenuItemLabel(item: HTMLButtonElement, label: string) {
-    const textContainer = item.querySelector('.mat-mdc-menu-item-text') as HTMLElement | null;
+  function updateNativeMenuItemLabel(item: Element, label: string) {
+    const textContainer = item.querySelector('.mat-mdc-menu-item-text, .label-container .label, .label-container') as HTMLElement | null;
     if (!textContainer) return false;
 
-    const styledLabel = textContainer.querySelector('.menu-text, .gds-body-m, .gds-label-m, .subtitle');
+    const styledLabel = textContainer.querySelector('.menu-text, .gds-body-m, .gds-label-m, .subtitle, span.ng-star-inserted');
     if (styledLabel) {
       styledLabel.textContent = label;
     } else {
@@ -553,7 +568,7 @@ export async function initFolders() {
     return true;
   }
 
-  function clearNativeMenuItemTemplateState(item: HTMLButtonElement) {
+  function clearNativeMenuItemTemplateState(item: Element) {
     [
       'data-test-id',
       'id',
@@ -563,6 +578,7 @@ export async function initFolders() {
       'jsname',
       'aria-describedby',
       'aria-labelledby',
+      'value',
     ].forEach(attribute => item.removeAttribute(attribute));
 
     [
@@ -607,14 +623,16 @@ export async function initFolders() {
   function createMoveToFolderMenuItem(menuContent: HTMLElement, conversation: ConversationItem) {
     const label = '移動至資料夾';
     const template = findNativeMenuItemTemplate(menuContent);
-    const item = template?.cloneNode(true) as HTMLButtonElement | undefined;
+    const item = template?.cloneNode(true) as HTMLElement | undefined;
     let menuItem = item || createMoveToFolderMenuItemFallback(label);
 
     if (item) {
       clearNativeMenuItemTemplateState(item);
       item.classList.add('mgh-menu-move-folder');
-      item.type = 'button';
-      item.disabled = false;
+      if (item instanceof HTMLButtonElement) {
+        item.type = 'button';
+        item.disabled = false;
+      }
       item.setAttribute('role', 'menuitem');
       item.setAttribute('tabindex', '0');
       item.setAttribute('aria-disabled', 'false');
@@ -638,8 +656,12 @@ export async function initFolders() {
       if (backdrop instanceof HTMLElement) {
         backdrop.click();
       } else {
-        const panel = menuItem.closest('.mat-mdc-menu-panel, [role="menu"]');
-        panel?.remove();
+        const panel = menuItem.closest('.mat-mdc-menu-panel, [role="menu"], gem-menu');
+        if (panel && panel.tagName.toLowerCase() === 'gem-menu') {
+          panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        } else {
+          panel?.remove();
+        }
       }
     });
 
@@ -649,8 +671,13 @@ export async function initFolders() {
   function attachMoveToFolderMenuItem(target: HTMLElement, conversation: ConversationItem) {
     const item = createMoveToFolderMenuItem(target, conversation);
     const pinButton = target.querySelector('[data-test-id="pin-button"]');
-    if (pinButton?.nextSibling) {
-      target.insertBefore(item, pinButton.nextSibling);
+
+    if (pinButton?.parentElement) {
+      if (pinButton.nextSibling) {
+        pinButton.parentElement.insertBefore(item, pinButton.nextSibling);
+      } else {
+        pinButton.parentElement.appendChild(item);
+      }
     } else {
       target.insertBefore(item, target.firstChild);
     }
@@ -688,6 +715,7 @@ export async function initFolders() {
 
   function findVisibleMenuTargets() {
     const selectors = [
+      'gem-menu[role="menu"]',
       '.cdk-overlay-pane .mat-mdc-menu-content',
       '.mat-mdc-menu-panel .mat-mdc-menu-content',
       '.mat-mdc-menu-content',
@@ -698,7 +726,7 @@ export async function initFolders() {
     );
 
     return Array.from(new Set(targets))
-      .map(target => (target.querySelector('.mat-mdc-menu-content') as HTMLElement | null) || target)
+      .map(target => (target.tagName.toLowerCase() === 'gem-menu' ? target : target.querySelector('.mat-mdc-menu-content') as HTMLElement | null) || target)
       .filter(isVisibleMenuCandidate);
   }
 
