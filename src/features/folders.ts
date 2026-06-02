@@ -758,16 +758,39 @@ export async function initFolders() {
     });
   }
 
-  function findRecentSection(): Element | null {
-    let list = document.querySelector('[data-test-id="all-conversations"]');
-    if (!list) list = document.querySelector('.chat-history');
-    if (!list) {
-      const items = document.querySelectorAll('[data-test-id="conversation"]');
-      if (items.length > 0) {
-        list = items[0].closest('.chat-history, [class*="conversation"]');
+  function isUsableSidebarAnchor(section: Element): section is HTMLElement {
+    if (!(section instanceof HTMLElement) || !(section.parentElement instanceof HTMLElement)) {
+      return false;
+    }
+
+    const sectionRect = section.getBoundingClientRect();
+    const parentRect = section.parentElement.getBoundingClientRect();
+
+    // Gemini may expose similarly named conversation containers in the main chat
+    // area while the sidebar is collapsed or still loading. Only inject into a
+    // visible, left-side container with sidebar-like dimensions.
+    return (
+      sectionRect.width > 0 &&
+      sectionRect.height > 0 &&
+      parentRect.width > 180 &&
+      parentRect.width < 520 &&
+      parentRect.left < window.innerWidth * 0.45
+    );
+  }
+
+  function findRecentSection(): HTMLElement | null {
+    const candidates = [
+      document.querySelector('[data-test-id="all-conversations"]'),
+      document.querySelector('.chat-history'),
+    ];
+
+    for (const section of candidates) {
+      if (section && isUsableSidebarAnchor(section)) {
+        return section;
       }
     }
-    return list;
+
+    return null;
   }
 
   // Render our compact folder section above Gemini's recent conversation list.
@@ -1040,9 +1063,14 @@ export async function initFolders() {
   // idempotent and safe to call repeatedly.
   function ensureWrapper() {
     const recentSection = findRecentSection();
-    if (!recentSection || !recentSection.parentElement) return;
-
     let wrapper = document.getElementById('gv-folder-wrapper');
+
+    if (!recentSection || !recentSection.parentElement) {
+      wrapper?.remove();
+      folderListEl = null;
+      return;
+    }
+
     if (!wrapper) {
       wrapper = document.createElement('div');
       wrapper.id = 'gv-folder-wrapper';
@@ -1083,9 +1111,12 @@ export async function initFolders() {
 
       wrapper.appendChild(header);
       wrapper.appendChild(listEl);
-      recentSection.parentElement.insertBefore(wrapper, recentSection);
 
       renderFolderList(listEl);
+    }
+
+    if (wrapper.parentElement !== recentSection.parentElement || wrapper.nextElementSibling !== recentSection) {
+      recentSection.parentElement.insertBefore(wrapper, recentSection);
     }
   }
 
